@@ -12,7 +12,7 @@ This repository contains scripts and configurations to set up a Hyperledger Fabr
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/bossfelfo/wearabledvice.git
+   git clone https://github.com/Tomilolaadeyinka/Wearabledevice.git
    ```
 
 2. **Navigate to the test network directory:**
