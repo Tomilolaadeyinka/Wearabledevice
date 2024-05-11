@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- <link rel="stylesheet" type="text/css" href="../style.css" /> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <style>
+      body {
+        background-color: #C2DAAA; /* Pastel Teal */
+      }
+
+      .custom-card {
+        border-radius: 20px;
+      }
+
+      .register-text {
+        color: #18431E;
+        font-size: 25px;
+      }
+
+      .form-label {
+        color: #18431E
+      }
+
+      .submit-btn {
+        background-color: #18431E; 
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+        width: 150px; /* Increased width */
+        border: #18431E;
+        color: white;
+      } 
+
+      .submit-btn:hover {
+        background-color: #18431E;
+      }
+      
+      .submit-btn:focus,
+      .submit-btn:focus-visible {
+         background-color: white;
+         box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+         transform: translateY(4px);
+         color: #18431E;
+         border: 2px solid #18431E;
+      }
+
+      /* Translucent dark teal navbar */
+      .navbar {
+        position: fixed; /* Fixed position */
+        width: 100%; /* Full width */
+        top: 0;
+        z-index: 999;
+        padding: 20px 0;
+        background-color: rgba(24, 67, 30, 1) !important; /* Dark teal with 0.9 opacity */
+        box-shadow: 0px 5px 15px hwb(0 0% 100% / 0.466); /* Initial shadow with no blur */
+        backdrop-filter: blur(50px); /* Initial blur effect */
+
+        /* Add transition for smooth effect */
+        transition: background-color 0.5s, box-shadow 0.5s;
+      }
+
+      .navbar:hover {
+        background-color: rgba(
+          0,
+          41,
+          41,
+          0.301
+        ); /* Fully transparent background */
+        box-shadow: 0px 15px 25px hwb(0 0% 100% / 0.341); /* Shadow with blur */
+      }
+
+      .navbar-nav .nav-link {
+        color: white; /* Default text color */
+        font-weight: normal; /* Default font weight */
+        transition: color 0.3s, font-weight 0.3s; /* Transition for smooth effect */
+      }
+
+      /* On hover, adjust the properties for navbar links */
+      .navbar-nav .nav-link:hover {
+        color: hsl(0, 0%, 100%); /* White text color on hover */
+        font-weight: bold; /* Bold font on hover */
+      }
+
+      #wdrdataDoctor {
+        width: 100%;
+        height: 100%;
+        font-size: 20px;
+        font-family: "Times New Roman", Times, serif;
+        resize: none;
+      }
+    </style>
+    <title>Wearable Device Record</title>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">Wearable Device Record</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="adminApplication.html"
+                >Admin Application</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="patientApplication.html"
+                >Patient Application
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="doctorApplication.html"
+                >Doctor Application <span class="sr-only">(current)</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Jumbotron Section -->
+    <br /><br />
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container text-center">
+        <h1 class="display-4" style="padding-top: 44px">
+          Welcome to WDR Managemement System!
+        </h1>
+        <p class="lead">
+          Our Doctor application allows you to add and view WDR of a patient.
+        </p>
+      </div>
+    </div>
+
+    <!-- Info Cards Section -->
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card text-center custom-card shadow h-100">
+            <div class="card-body">
+              <h5 class="card-title register-text">Add </h5>
+              <hr />
+              <form method="POST" id="addWDRFDoctor">
+                <div class="mb-3 row">
+                  <label
+                    for="userEmail"
+                    class="col-sm-4 col-form-label form-label"
+                    >Patient Email-id</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      type="email"
+                      placeholder="Enter patient email"
+                      name="email"
+                      id="userEmail"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label
+                    for="doctorEmail"
+                    class="col-sm-4 col-form-label form-label"
+                    >Doctor Email-id</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      type="email"
+                      placeholder="Enter doctor email"
+                      name="email"
+                      id="doctorEmail"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <label for="wdrID" class="col-sm-4 col-form-label form-label"
+                    >WDR ID</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      type="text"
+                      placeholder="Enter WDR ID"
+                      name="WDR ID"
+                      id="wdrID"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="mb-3 row">
+                  <label for="wdr" class="col-sm-4 col-form-label form-label"
+                    >Enter the WDR</label
+                  >
+                  <div class="col-sm-8">
+                    <textarea
+                      style="text-align: center"
+                      type="text"
+                      placeholder="WDR"
+                      name="email"
+                      id="wdr"
+                      class="form-control"
+                      required
+                    ></textarea>
+                  </div>
+                </div>
+                <br />
+                <div class="mb-3 row">
+                  <div class="col-sm-12">
+                    <button
+                      type="submit"
+                      class="btn btn-success submit-btn"
+                      style="width: 80%"
+                      id="addWDRB"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+      <hr />
+      <br />
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card text-center custom-card shadow h-100">
+            <div class="card-body">
+              <h5 class="card-title register-text">View WDR</h5>
+              <hr />
+              <form method="GET" id="viewWDRF">
+                <br />
+                <br />
+                <div class="mb-3 row">
+                  <label for="wdrID" class="col-sm-4 col-form-label form-label"
+                    >Enter WDR ID</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      type="text"
+                      placeholder="Enter WDR ID"
+                      name="WDR ID"
+                      id="wdrID"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                </div>
+                <br />
+                <br />
+                <div class="mb-3 row">
+                  <label for="email" class="col-sm-4 col-form-label form-label"
+                    >Doctor Email-id</label
+                  >
+                  <div class="col-sm-8">
+                    <input
+                      type="email"
+                      placeholder="Enter doctor email"
+                      name="doctorEmail"
+                      id="doctorEmail"
+                      class="form-control"
+                      required
+                    />
+                  </div>
+                </div>
+                <br />
+                <br />
+
+                <div class="mb-3 row">
+                  <div class="col-sm-12">
+                    <button
+                      type="submit"
+                      class="btn btn-success submit-btn"
+                      style="width: 80%"
+                      id="viewWDRB"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6" id="viewWDRDiv">
+          <div class="card text-center custom-card shadow h-100">
+            <div class="card-body">
+              <h5 class="card-title register-text">Your WDR</h5>
+              <hr />
+              <div id="viewWDRDiv">
+                <textarea
+                  style="display: none"
+                  name="wdrcontent"
+                  placeholder="After you click submit the button WDR will appear here"
+                  id="wdrdataDoctor"
+                >
+                </textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br />
+    <hr />
+    <br />
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

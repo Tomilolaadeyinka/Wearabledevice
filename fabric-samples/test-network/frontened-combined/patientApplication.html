@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link rel="stylesheet" type="text/css" href="../style.css" /> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="index.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+      body {
+          /* background-color: #bddee2; */
+          background-color: #C2DAAA /* Pastel Teal */
+      }
+
+      .custom-card {
+          border-radius: 20px;
+      }
+
+      .register-text {
+          color: #18431E; /* Teal */
+          font-size: 25px;
+      }
+
+      .form-label {
+          color: #18431E; /* Teal */
+      }
+
+      .submit-btn {
+        color: white;
+          background-color: #18431E; /* Dark Teal */
+          box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+          width: 150px; /* Increased width */
+          border: #004040;
+      }
+
+      .submit-btn:hover {
+          background-color: white;
+            transform: translateY(4px);
+            color: #18431E;
+            border: 2px solid #18431E;
+      }
+
+        .submit-btn:focus, .submit-btn:focus-visible{
+            background-color: white;
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+            transform: translateY(4px);
+            color: #18431E;
+            border: 2px solid #18431E;
+        }
+
+      /* Translucent dark teal navbar */
+      .navbar {
+        position: fixed;  /* Fixed position */
+        width: 100%;      /* Full width */
+        top: 0;      
+        z-index: 999;
+        padding: 20px 0;
+        margin-bottom: 100px;
+        background-color: rgba(24, 67, 30, 1) !important; /* Dark teal with 0.9 opacity */
+        box-shadow: 0px 5px 15px hwb(0 0% 100% / 0.466); /* Initial shadow with no blur */
+        backdrop-filter: blur(50px); /* Initial blur effect */
+
+        /* Add transition for smooth effect */
+        transition: background-color 0.5s, box-shadow 0.5s;
+      }
+
+      .navbar:hover {
+        background-color: rgba(0, 41, 41, 0.301); /* Fully transparent background */
+        box-shadow: 0px 15px 25px hwb(0 0% 100% / 0.341); /* Shadow with blur */
+      }
+
+      .navbar-nav .nav-link {
+        color: white; /* Default text color */
+        font-weight: normal; /* Default font weight */
+        transition: color 0.3s, font-weight 0.3s; /* Transition for smooth effect */
+      }
+
+      /* On hover, adjust the properties for navbar links */
+      .navbar-nav .nav-link:hover {
+        color: hsl(0, 0%, 100%); /* White text color on hover */
+        font-weight: bold; /* Bold font on hover */
+      }
+
+      #recordsTable,#viewAllWDRList, #viewAllUserForWDR, #viewAddAccessList{
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.295);
+        }
+
+        #recordsTable th, #recordsTable td, #viewAllWDRList th, #viewAllWDRList td, #viewAllUserForWDR th, #viewAllUserForWDR td, #viewAddAccessList th, #viewAddAccessList td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        #recordsTable th , #viewAllWDRList th, #viewAllUserForWDR th, #viewAddAccessList th{
+            background-color: #18431E; /* Dark Teal */
+            color: white;
+        }
+
+        #wdrdata{
+        width: 100%;
+        height: 100%;
+        font-size: 20px;
+        font-family: "Times New Roman", Times, serif;
+        resize: none;
+      }
+  </style>
+  <title>Wearable Device Record</title>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+          <a class="navbar-brand" href="#">Wearable Device Record</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ml-auto">
+                  <li class="nav-item active">
+                      <a class="nav-link" href="adminApplication.html">Admin Application</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="patientApplication.html">Patient Application <span class="sr-only">(current)</span></a></a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="doctorApplication.html">Doctor Application</a>
+                  </li>                  
+              </ul>
+          </div>
+      </div>
+  </nav>
+
+  <!-- Jumbotron Section -->
+  <br><br>
+  <div class="jumbotron jumbotron-fluid">
+      <div class="container text-center">
+          <h1 class="display-4" style="padding-top: 44px;">Welcome to WDR Managemement System!</h1>
+          <p class="lead">Our Patient application allows you to grant and revoke various accesses.</p>
+          <h2 class="display-6">ACCESS MANAGEMENT</h2>
+      </div>
+  </div>
+
+  <!-- Info Cards Section -->
+<div class="container mt-5" id="accessManagementDiv">
+    <div class="row">
+        <div class="col-md-6"  id="viewAccessDiv">
+            <div class="card text-center custom-card shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title register-text">Manage Your WDR View Access</h5>
+                    <hr />
+                    <form method="POST" id="viewAccessF">
+                        <div class="mb-3 row">
+                            <label for="userEmail" class="col-sm-4 col-form-label form-label">User Email-id</label>
+                            <div class="col-sm-8">
+                                <input type="email" placeholder="Enter user email" name="email" id="userEmail" class="form-control"  required/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="viewerEmail" class="col-sm-4 col-form-label form-label">Viewer Email-id</label>
+                            <div class="col-sm-8">
+                                <input type="email" placeholder="Enter viewer email" name="email" id="viewerEmail" class="form-control"  required/>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="wdrID" class="col-sm-4 col-form-label form-label">WDR ID</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="Enter WDR ID" name="WDR ID" id="wdrID" class="form-control"  required/>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="mb-3 row">
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn btn-sucess submit-btn" id="grantViewB">Grant</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="submit" class="btn btn-sucess submit-btn" id="revokeViewB">Revoke</button>
+                            </div>
+                        </div>
+                      </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6"  id="addAccessDiv">
+            <div class="card text-center custom-card shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title register-text">Manage Your WDR Add Access</h5>
+                    <hr />
+                    <form method="POST" id="addAccessF">
+                        <br>
+                        <div class="mb-3 row">
+                            <label for="userEmail" class="col-sm-4 col-form-label form-label">User Email-id</label>
+                            <div class="col-sm-8">
+                                <input type="email" placeholder="Enter user email" name="email" id="userEmail" class="form-control"  required/>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="mb-3 row">
+                            <label for="adderEmail" class="col-sm-4 col-form-label form-label">Adder Email-id</label>
+                            <div class="col-sm-8">
+                                <input type="email" placeholder="Enter adder email" name="email" id="adderEmail" class="form-control"  required/>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="mb-3 row">
+                            <div class="col-sm-12">
+                                <button type="submit" class="btn btn-sucess submit-btn" id="grantAddB">Grant</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="submit" class="btn btn-sucess submit-btn" id="revokeAddB">Revoke</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <hr>
+    <br >
+    <div class="row">
+        <div class="col-md-6"  id="viewWDRDiv">
+            <div class="card text-center custom-card shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title register-text">View Your WDR</h5>
+                    <hr />
+                    <form method="GET" id="viewWDRFPatient">
+                        <br>
+                        <div class="mb-3 row">
+                            <label for="userEmail" class="col-sm-4 col-form-label form-label">User Email-id</label>
+                            <div class="col-sm-8">
+                                <input type="email" placeholder="Enter user email" name="email" id="userEmail" class="form-control"  required/>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="mb-3 row">
+                            <label for="wdrID" class="col-sm-4 col-form-label form-label">WDR ID</label>
+                            <div class="col-sm-8">
+                                <input type="text" placeholder="WDR ID" name="WDR ID" id="wdrID" class="form-control"/>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="mb-3 row">
+                            <div class="col-sm-12">
+                                <!-- NO ID GIVEN FOR BUTTON !!!!!!!!!!!!!!! -->
+                                <button type="submit" class="btn btn-sucess submit-btn" style="width: 80%;" >View</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6"  id="viewWDRDiv">
+            <div class="card text-center custom-card shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title register-text">Your WDR</h5>
+                    <hr />
+                    <div id="viewWDRDiv">
+                        <textarea
+                          style="display: none"
+                          name="wdrcontent"
+                          placeholder="After you click submit the button WDR will appear here"
+                          id="wdrdata"
+                        >
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card text-center custom-card shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title register-text">View Your WDR List</h5>
+                    <hr />
+                    <div id="viewWDRListDiv">    
+                        <form id="viewWDRList" method="GET">
+                            <div class="mb-3 row">
+                                <label for="userEmail" class="col-sm-4 col-form-label form-label">User Email-id</label>
+                                <div class="col-sm-8">
+                                    <input type="email" placeholder="Enter user email" name="email" id="userEmail" class="form-control"  required/>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-sucess submit-btn" style="width: 80%;">Get all WDR</button>
+                        </form>
+                        
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6"  id="viewWDRDiv">
+            <div class="card text-center custom-card shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title register-text">Your WDR List</h5>
+                    <hr />
+                    <div id="viewWDRListDiv">
+                        <!-- <textarea style="display: none" name="wdrcontent" placeholder="After you click submit the button WDR will appear here" id="wdrdataviewWDRListDiv"></textarea> -->
+                        <table id="viewAllWDRList">
+                            <!-- Table header -->
+                            <thead>
+                                <tr>
+                                    <th>Adder Email</th>
+                                    <th>Type</th>
+                                    <th>WDR Content</th>
+                                    <th>Creation Date</th>
+                                    <th>No. of users with access</th>
+                                </tr>
+                            </thead>
+                            <!-- Table body will be populated dynamically -->
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card text-center custom-card shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title register-text">View All Users with Add access</h5>
+                    <hr />
+                    <div id="viewAddAccessListDiv">    
+                        <form id="viewAddAccessList1" method="GET">
+                            <div class="mb-3 row">
+                                <label for="userEmail" class="col-sm-4 col-form-label form-label">User Email-id</label>
+                                <div class="col-sm-8">
+                                    <input type="email" placeholder="Enter user email" name="email" id="userEmail" class="form-control"  required/>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-sucess submit-btn" style="width: 80%;">Get Access user list</button>
+                        </form>                        
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6"  id="viewAddAccessListDiv">
+            <div class="card text-center custom-card shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title register-text">Your WDR List</h5>
+                    <hr />
+                    <div id="viewAddAccessListDiv">
+                        <!-- <textarea style="display: none" name="wdrcontent" placeholder="After you click submit the button WDR will appear here" id="wdrdataviewWDRListDiv"></textarea> -->
+                        <table id="viewAddAccessList">
+                            <!-- Table header -->
+                            <thead>
+                                <tr>
+                                    <th>Patient Name</th>
+                                    <th>Patient Email</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <!-- Table body will be populated dynamically -->
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card text-center custom-card shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title register-text">View All Users who can access the WDR</h5>
+                    <hr />
+                    <div id="viewUserForWDRDiv">    
+                        <form id="viewUserForWDR" method="GET">
+                            <div class="mb-3 row">
+                                <label for="userEmail" class="col-sm-4 col-form-label form-label">User Email-id</label>
+                                <div class="col-sm-8">
+                                    <input type="email" placeholder="Enter user email" name="email" id="userEmail" class="form-control"  required/>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="wdrID" class="col-sm-4 col-form-label form-label">WDR ID</label>
+                                <div class="col-sm-8">
+                                    <input type="text" placeholder="Enter WDR ID" name="WDR ID" id="wdrID" class="form-control"  required/>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-sucess submit-btn" style="width: 80%;">Get user for WDR</button>
+                        </form>                        
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6"  id="viewUserForWDRDiv">
+            <div class="card text-center custom-card shadow h-100">
+                <div class="card-body">
+                    <h5 class="card-title register-text">Your WDR List</h5>
+                    <hr />
+                    <div id="viewUserForWDRDiv">
+                        <!-- <textarea style="display: none" name="wdrcontent" placeholder="After you click submit the button WDR will appear here" id="wdrdataviewWDRListDiv"></textarea> -->
+                        <table id="viewAllUserForWDR">
+                            <!-- Table header -->
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <!-- Table body will be populated dynamically -->
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <br>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
