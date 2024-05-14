@@ -26,7 +26,7 @@ This repository contains scripts and configurations to set up a Hyperledger Fabr
 
    ```bash
    ./network.sh down
-   ./network.sh up createChannel -ca -s couchdb
+   ./network.sh up createChannel -ca -s
    ./deploymentScript.sh
    ```
 
